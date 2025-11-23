@@ -446,6 +446,13 @@ export function getExecutionFlows(): ExecutionFlow[] {
     createdAt: new Date(flow.createdAt),
     updatedAt: new Date(flow.updatedAt),
     deletedAt: flow.deletedAt ? new Date(flow.deletedAt) : undefined,
+    steps: flow.steps.map((step) => ({
+      ...step,
+      questions: step.questions.map((question) => ({
+        ...question,
+        options: question.options.map((option) => ({ ...option })),
+      })),
+    })),
   })) as ExecutionFlow[];
 }
 
