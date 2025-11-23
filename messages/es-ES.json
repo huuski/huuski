@@ -1,0 +1,91 @@
+{
+  "preferences": {
+    "title": "Preferencias",
+    "description": "Personaliza la apariencia y el comportamiento del panel.",
+    "theme": {
+      "title": "Modo oscuro",
+      "description": "Establece cómo debe comportarse el panel.",
+      "enabled": "Activado",
+      "disabled": "Desactivado",
+      "system": "Sistema",
+      "useSystem": "Usar preferencia del sistema",
+      "currentTheme": "Tema actual",
+      "followSystem": "Seguir sistema",
+      "followSystemDesc": "Detecta automáticamente el tema de tu dispositivo.",
+      "toggle": "Alternar"
+    },
+    "language": {
+      "title": "Idioma",
+      "description": "Elige el idioma de visualización del panel."
+    },
+    "other": {
+      "title": "Otras preferencias",
+      "description": "Más opciones de personalización estarán disponibles pronto.",
+      "content": "Puedes agregar aquí configuraciones como idioma, notificaciones y otras preferencias personales."
+    }
+  },
+  "menu": {
+    "sections": {
+      "overview": "Resumen",
+      "catalog": "Productos y servicios",
+      "finance": "Finanzas",
+      "workspace": "Espacio de trabajo"
+    },
+    "items": {
+      "dashboard": "Panel",
+      "reports": "Informes",
+      "executionFlow": "Flujos de ejecución",
+      "products": "Productos",
+      "services": "Servicios",
+      "customer": "Clientes",
+      "paymentMethod": "Forma de pago",
+      "negotiations": "Negociaciones",
+      "promotions": "Promociones",
+      "transactions": "Transacciones",
+      "invoices": "Facturas",
+      "settings": "Configuración",
+      "feedback": "Comentarios",
+      "help": "Ayuda"
+    },
+    "userMenu": {
+      "profile": "Perfil",
+      "preferences": "Preferencias",
+      "logout": "Salir",
+      "loggingOut": "Saliendo..."
+    },
+    "topBar": {
+      "searchPlaceholder": "Buscar pedidos, clientes...",
+      "salesCockpit": "Panel de ventas"
+    },
+    "pages": {
+      "executionFlow": {
+        "title": "Flujos de ejecución",
+        "description": "Gestiona tus flujos de ejecución y configuraciones"
+      },
+      "dashboard": {
+        "title": "Panel"
+      }
+    }
+  },
+  "modules": {
+    "administrativo": {
+      "name": "Administrativo",
+      "description": "Gestión administrativa"
+    },
+    "operacional": {
+      "name": "Operacional",
+      "description": "Gestión operacional"
+    },
+    "fiscal": {
+      "name": "Fiscal",
+      "description": "Gestión fiscal"
+    },
+    "financeiro": {
+      "name": "Financiero",
+      "description": "Gestión financiera"
+    },
+    "searchPlaceholder": "Buscar módulos...",
+    "noModulesFound": "No se encontraron módulos"
+  }
+}
+

@@ -1,0 +1,369 @@
+{
+  "id": "example-flow-001",
+  "title": "Questionário completo de exemplo",
+  "createdAt": "2024-01-15T10:00:00Z",
+  "updatedAt": "2024-01-20T14:30:00Z",
+  "steps": [
+    {
+      "id": "step-1",
+      "title": "Etapa 1 - Informações básicas",
+      "subtitle": "Dados pessoais e de contato",
+      "description": "Coleta de informações básicas do cliente",
+      "stepNumber": 1,
+      "questions": [
+        {
+          "id": "q-1-1",
+          "order": 1,
+          "title": "Nome completo",
+          "subtitle": "Digite seu nome completo",
+          "description": "Informe seu nome completo como consta no documento",
+          "type": 1,
+          "options": [],
+          "maxLength": 255
+        },
+        {
+          "id": "q-1-2",
+          "order": 2,
+          "title": "Email",
+          "subtitle": "Seu endereço de email",
+          "description": "Email para contato e comunicação",
+          "type": 1,
+          "options": [],
+          "maxLength": 100
+        },
+        {
+          "id": "q-1-3",
+          "order": 3,
+          "title": "Observações gerais",
+          "subtitle": "Informações adicionais",
+          "description": "Descreva qualquer informação adicional que considere relevante",
+          "type": 2,
+          "options": [],
+          "maxLength": 1000
+        }
+      ]
+    },
+    {
+      "id": "step-2",
+      "title": "Etapa 2 - Seleção única",
+      "subtitle": "Escolha uma opção",
+      "description": "Perguntas com seleção única (radio buttons)",
+      "stepNumber": 2,
+      "questions": [
+        {
+          "id": "q-2-1",
+          "order": 1,
+          "title": "Qual é o seu gênero?",
+          "subtitle": "Selecione uma opção",
+          "description": "Informe seu gênero",
+          "type": 3,
+          "options": [
+            {
+              "id": "opt-2-1-1",
+              "title": "Masculino",
+              "value": "masculino",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-2-1-2",
+              "title": "Feminino",
+              "value": "feminino",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-2-1-3",
+              "title": "Outro",
+              "value": "outro",
+              "enableExtraAnswer": true,
+              "extraAnswerMaxLength": 100
+            },
+            {
+              "id": "opt-2-1-4",
+              "title": "Prefiro não informar",
+              "value": "nao_informar",
+              "enableExtraAnswer": false
+            }
+          ]
+        },
+        {
+          "id": "q-2-2",
+          "order": 2,
+          "title": "Como você conheceu nosso serviço?",
+          "subtitle": "Selecione a opção",
+          "description": "Nos ajude a entender como você chegou até nós",
+          "type": 3,
+          "options": [
+            {
+              "id": "opt-2-2-1",
+              "title": "Indicação de amigo",
+              "value": "indicacao",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-2-2-2",
+              "title": "Redes sociais",
+              "value": "redes_sociais",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-2-2-3",
+              "title": "Google/Busca",
+              "value": "google",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-2-2-4",
+              "title": "Outro",
+              "value": "outro",
+              "enableExtraAnswer": true,
+              "extraAnswerMaxLength": 200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "step-3",
+      "title": "Etapa 3 - Seleção múltipla",
+      "subtitle": "Escolha várias opções",
+      "description": "Perguntas com seleção múltipla (checkboxes)",
+      "stepNumber": 3,
+      "questions": [
+        {
+          "id": "q-3-1",
+          "order": 1,
+          "title": "Quais serviços você tem interesse?",
+          "subtitle": "Selecione todas as opções que se aplicam",
+          "description": "Marque todos os serviços que despertam seu interesse",
+          "type": 4,
+          "options": [
+            {
+              "id": "opt-3-1-1",
+              "title": "Consulta médica",
+              "value": "consulta_medica",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-3-1-2",
+              "title": "Exames laboratoriais",
+              "value": "exames_lab",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-3-1-3",
+              "title": "Tratamento estético",
+              "value": "estetico",
+              "enableExtraAnswer": true,
+              "extraAnswerMaxLength": 300
+            },
+            {
+              "id": "opt-3-1-4",
+              "title": "Procedimento cirúrgico",
+              "value": "cirurgia",
+              "enableExtraAnswer": true,
+              "extraAnswerMaxLength": 500
+            },
+            {
+              "id": "opt-3-1-5",
+              "title": "Outros",
+              "value": "outros",
+              "enableExtraAnswer": true,
+              "extraAnswerMaxLength": 400
+            }
+          ]
+        },
+        {
+          "id": "q-3-2",
+          "order": 2,
+          "title": "Quais são suas principais preocupações?",
+          "subtitle": "Selecione todas que se aplicam",
+          "description": "Marque todas as áreas que são de sua preocupação",
+          "type": 4,
+          "options": [
+            {
+              "id": "opt-3-2-1",
+              "title": "Saúde geral",
+              "value": "saude_geral",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-3-2-2",
+              "title": "Aparência física",
+              "value": "aparencia",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-3-2-3",
+              "title": "Bem-estar mental",
+              "value": "mental",
+              "enableExtraAnswer": true,
+              "extraAnswerMaxLength": 250
+            },
+            {
+              "id": "opt-3-2-4",
+              "title": "Prevenção",
+              "value": "prevencao",
+              "enableExtraAnswer": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "step-4",
+      "title": "Etapa 4 - Upload de imagens",
+      "subtitle": "Envio de fotos",
+      "description": "Perguntas que requerem upload de imagens",
+      "stepNumber": 4,
+      "questions": [
+        {
+          "id": "q-4-1",
+          "order": 1,
+          "title": "Envie uma foto de identificação",
+          "subtitle": "Documento com foto",
+          "description": "Faça upload de uma foto do seu documento de identificação (RG, CNH, etc.)",
+          "type": 5,
+          "options": [],
+          "maxImages": 1,
+          "acceptedImageTypes": ["image/jpeg", "image/png"]
+        },
+        {
+          "id": "q-4-2",
+          "order": 2,
+          "title": "Envie fotos do local",
+          "subtitle": "Máximo de 5 fotos",
+          "description": "Envie fotos do local onde será realizado o procedimento (máximo 5 fotos)",
+          "type": 5,
+          "options": [],
+          "maxImages": 5,
+          "acceptedImageTypes": ["image/jpeg", "image/png", "image/webp"]
+        },
+        {
+          "id": "q-4-3",
+          "order": 3,
+          "title": "Envie fotos de referência",
+          "subtitle": "Sem limite de fotos",
+          "description": "Envie quantas fotos de referência desejar (sem limite)",
+          "type": 5,
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "step-5",
+      "title": "Etapa 5 - Combinação de tipos",
+      "subtitle": "Mistura de perguntas",
+      "description": "Etapa com diferentes tipos de perguntas combinadas",
+      "stepNumber": 5,
+      "questions": [
+        {
+          "id": "q-5-1",
+          "order": 1,
+          "title": "Telefone de contato",
+          "subtitle": "DDD + número",
+          "description": "Informe seu número de telefone com DDD",
+          "type": 1,
+          "options": [],
+          "maxLength": 15
+        },
+        {
+          "id": "q-5-2",
+          "order": 2,
+          "title": "Descreva sua situação atual",
+          "subtitle": "Detalhes importantes",
+          "description": "Forneça uma descrição detalhada da sua situação atual",
+          "type": 2,
+          "options": [],
+          "maxLength": 2000
+        },
+        {
+          "id": "q-5-3",
+          "order": 3,
+          "title": "Qual é sua faixa etária?",
+          "subtitle": "Selecione uma opção",
+          "description": "Informe sua faixa etária",
+          "type": 3,
+          "options": [
+            {
+              "id": "opt-5-3-1",
+              "title": "18-25 anos",
+              "value": "18-25",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-5-3-2",
+              "title": "26-35 anos",
+              "value": "26-35",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-5-3-3",
+              "title": "36-50 anos",
+              "value": "36-50",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-5-3-4",
+              "title": "Acima de 50 anos",
+              "value": "50+",
+              "enableExtraAnswer": false
+            }
+          ]
+        },
+        {
+          "id": "q-5-4",
+          "order": 4,
+          "title": "Quais métodos de pagamento você prefere?",
+          "subtitle": "Selecione todos",
+          "description": "Marque todos os métodos de pagamento que você aceita",
+          "type": 4,
+          "options": [
+            {
+              "id": "opt-5-4-1",
+              "title": "Cartão de crédito",
+              "value": "credito",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-5-4-2",
+              "title": "Cartão de débito",
+              "value": "debito",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-5-4-3",
+              "title": "PIX",
+              "value": "pix",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-5-4-4",
+              "title": "Boleto",
+              "value": "boleto",
+              "enableExtraAnswer": false
+            },
+            {
+              "id": "opt-5-4-5",
+              "title": "Outro",
+              "value": "outro",
+              "enableExtraAnswer": true,
+              "extraAnswerMaxLength": 150
+            }
+          ]
+        },
+        {
+          "id": "q-5-5",
+          "order": 5,
+          "title": "Envie uma foto de perfil",
+          "subtitle": "Opcional",
+          "description": "Envie uma foto sua para o perfil (opcional)",
+          "type": 5,
+          "options": [],
+          "maxImages": 1,
+          "acceptedImageTypes": ["image/jpeg", "image/png", "image/webp"]
+        }
+      ]
+    }
+  ]
+}
+

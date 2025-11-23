@@ -1,0 +1,91 @@
+{
+  "preferences": {
+    "title": "Preferências",
+    "description": "Personalize a aparência e comportamento do dashboard.",
+    "theme": {
+      "title": "Modo escuro",
+      "description": "Defina como o dashboard deve se comportar.",
+      "enabled": "Ativado",
+      "disabled": "Desativado",
+      "system": "Sistema",
+      "useSystem": "Usar preferência do sistema",
+      "currentTheme": "Tema atual",
+      "followSystem": "Seguir o sistema",
+      "followSystemDesc": "Detecta automaticamente o tema do seu dispositivo.",
+      "toggle": "Alternar"
+    },
+    "language": {
+      "title": "Idioma",
+      "description": "Escolha o idioma de exibição do dashboard."
+    },
+    "other": {
+      "title": "Outras preferências",
+      "description": "Mais opções de personalização estarão disponíveis em breve.",
+      "content": "Você pode adicionar aqui configurações como idioma, notificações, e outras preferências pessoais."
+    }
+  },
+  "menu": {
+    "sections": {
+      "overview": "Visão geral",
+      "catalog": "Produtos e serviços",
+      "finance": "Financeiro",
+      "workspace": "Área de trabalho"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "reports": "Relatórios",
+      "executionFlow": "Fluxos de execução",
+      "products": "Produtos",
+      "services": "Serviços",
+      "customer": "Clientes",
+      "paymentMethod": "Forma de pagamento",
+      "negotiations": "Negociações",
+      "promotions": "Promoções",
+      "transactions": "Transações",
+      "invoices": "Faturas",
+      "settings": "Configurações",
+      "feedback": "Feedback",
+      "help": "Ajuda"
+    },
+    "userMenu": {
+      "profile": "Perfil",
+      "preferences": "Preferências",
+      "logout": "Sair",
+      "loggingOut": "Saindo..."
+    },
+    "topBar": {
+      "searchPlaceholder": "Buscar pedidos, clientes...",
+      "salesCockpit": "Painel de vendas"
+    },
+    "pages": {
+      "executionFlow": {
+        "title": "Fluxos de execução",
+        "description": "Gerencie seus fluxos de execução e configurações"
+      },
+      "dashboard": {
+        "title": "Painel"
+      }
+    }
+  },
+  "modules": {
+    "administrativo": {
+      "name": "Administrativo",
+      "description": "Gestão administrativa"
+    },
+    "operacional": {
+      "name": "Operacional",
+      "description": "Gestão operacional"
+    },
+    "fiscal": {
+      "name": "Fiscal",
+      "description": "Gestão fiscal"
+    },
+    "financeiro": {
+      "name": "Financeiro",
+      "description": "Gestão financeira"
+    },
+    "searchPlaceholder": "Buscar módulos...",
+    "noModulesFound": "Nenhum módulo encontrado"
+  }
+}
+

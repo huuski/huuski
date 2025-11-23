@@ -1,0 +1,439 @@
+[
+  {
+    "id": "1",
+    "title": "Anamnese Inicial",
+    "createdAt": "2024-01-15T10:00:00Z",
+    "updatedAt": "2024-01-20T14:30:00Z",
+    "steps": [
+      {
+        "id": "step-1-1",
+        "title": "1 - Dados Pessoais",
+        "subtitle": "Informações básicas do paciente",
+        "description": "Coleta de dados pessoais e informações de contato",
+        "stepNumber": 1,
+        "questions": [
+          {
+            "id": "q-1-1-1",
+            "order": 1,
+            "title": "Nome completo",
+            "subtitle": "",
+            "description": "Digite o nome completo do paciente",
+            "type": 1,
+            "options": [],
+            "maxLength": 255
+          },
+          {
+            "id": "q-1-1-2",
+            "order": 2,
+            "title": "Data de nascimento",
+            "subtitle": "DD/MM/AAAA",
+            "description": "Data de nascimento do paciente",
+            "type": 1,
+            "options": [],
+            "maxLength": 10
+          },
+          {
+            "id": "q-1-1-3",
+            "order": 3,
+            "title": "Telefone de contato",
+            "subtitle": "",
+            "description": "Telefone para contato em caso de emergência",
+            "type": 1,
+            "options": [],
+            "maxLength": 15
+          }
+        ]
+      },
+      {
+        "id": "step-1-2",
+        "title": "2 - Histórico Médico",
+        "subtitle": "Informações sobre saúde",
+        "description": "Histórico de doenças, cirurgias e medicações",
+        "stepNumber": 2,
+        "questions": [
+          {
+            "id": "q-1-2-1",
+            "order": 1,
+            "title": "Possui alguma doença crônica?",
+            "subtitle": "",
+            "description": "Selecione todas as opções que se aplicam",
+            "type": 4,
+            "options": [
+              {
+                "id": "opt-1-2-1-1",
+                "title": "Diabetes",
+                "value": "diabetes",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 200
+              },
+              {
+                "id": "opt-1-2-1-2",
+                "title": "Hipertensão",
+                "value": "hipertensao",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-1-2-1-3",
+                "title": "Asma",
+                "value": "asma",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 150
+              },
+              {
+                "id": "opt-1-2-1-4",
+                "title": "Nenhuma",
+                "value": "nenhuma",
+                "enableExtraAnswer": false
+              }
+            ]
+          },
+          {
+            "id": "q-1-2-2",
+            "order": 2,
+            "title": "Descreva seu histórico médico",
+            "subtitle": "",
+            "description": "Informe sobre cirurgias, tratamentos ou condições médicas relevantes",
+            "type": 2,
+            "options": [],
+            "maxLength": 1000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Questionário de Execução",
+    "createdAt": "2024-01-18T09:15:00Z",
+    "updatedAt": "2024-01-25T16:45:00Z",
+    "steps": [
+      {
+        "id": "step-2-1",
+        "title": "1 - Perguntas Gerais",
+        "subtitle": "Avaliação inicial",
+        "description": "Primeira etapa do questionário",
+        "stepNumber": 1,
+        "questions": [
+          {
+            "id": "q-2-1-1",
+            "order": 1,
+            "title": "Como você se sente hoje?",
+            "subtitle": "",
+            "description": "Avalie seu estado geral de saúde",
+            "type": 3,
+            "options": [
+              {
+                "id": "opt-2-1-1-1",
+                "title": "Excelente",
+                "value": "excelente",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-2-1-1-2",
+                "title": "Bom",
+                "value": "bom",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-2-1-1-3",
+                "title": "Regular",
+                "value": "regular",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 300
+              },
+              {
+                "id": "opt-2-1-1-4",
+                "title": "Ruim",
+                "value": "ruim",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 500
+              }
+            ]
+          },
+          {
+            "id": "q-2-1-2",
+            "order": 2,
+            "title": "Observações adicionais",
+            "subtitle": "",
+            "description": "Adicione qualquer informação relevante",
+            "type": 2,
+            "options": [],
+            "maxLength": 2000
+          }
+        ]
+      },
+      {
+        "id": "step-2-2",
+        "title": "2 - Laser",
+        "subtitle": "Procedimento a laser",
+        "description": "Questionário específico sobre procedimento a laser",
+        "stepNumber": 2,
+        "questions": [
+          {
+            "id": "q-2-2-1",
+            "order": 1,
+            "title": "Já realizou procedimento a laser anteriormente?",
+            "subtitle": "",
+            "description": "",
+            "type": 3,
+            "options": [
+              {
+                "id": "opt-2-2-1-1",
+                "title": "Sim",
+                "value": "sim",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 400
+              },
+              {
+                "id": "opt-2-2-1-2",
+                "title": "Não",
+                "value": "nao",
+                "enableExtraAnswer": false
+              }
+            ]
+          },
+          {
+            "id": "q-2-2-2",
+            "order": 2,
+            "title": "Tipo de pele",
+            "subtitle": "",
+            "description": "Classificação de Fitzpatrick",
+            "type": 3,
+            "options": [
+              {
+                "id": "opt-2-2-2-1",
+                "title": "Tipo I - Muito clara",
+                "value": "tipo1",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-2-2-2-2",
+                "title": "Tipo II - Clara",
+                "value": "tipo2",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-2-2-2-3",
+                "title": "Tipo III - Média",
+                "value": "tipo3",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-2-2-2-4",
+                "title": "Tipo IV - Morena",
+                "value": "tipo4",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-2-2-2-5",
+                "title": "Tipo V - Escura",
+                "value": "tipo5",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-2-2-2-6",
+                "title": "Tipo VI - Muito escura",
+                "value": "tipo6",
+                "enableExtraAnswer": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Avaliação Pós-Tratamento",
+    "createdAt": "2024-02-01T11:20:00Z",
+    "updatedAt": "2024-02-05T10:10:00Z",
+    "steps": [
+      {
+        "id": "step-3-1",
+        "title": "1 - Resultados",
+        "subtitle": "Avaliação dos resultados",
+        "description": "Avalie os resultados do tratamento realizado",
+        "stepNumber": 1,
+        "questions": [
+          {
+            "id": "q-3-1-1",
+            "order": 1,
+            "title": "Satisfação com o resultado",
+            "subtitle": "",
+            "description": "De 1 a 10, como você avalia o resultado?",
+            "type": 3,
+            "options": [
+              {
+                "id": "opt-3-1-1-1",
+                "title": "1 - Muito insatisfeito",
+                "value": "1",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 500
+              },
+              {
+                "id": "opt-3-1-1-2",
+                "title": "5 - Neutro",
+                "value": "5",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-3-1-1-3",
+                "title": "10 - Muito satisfeito",
+                "value": "10",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 300
+              }
+            ]
+          },
+          {
+            "id": "q-3-1-2",
+            "order": 2,
+            "title": "Recomendaria o tratamento?",
+            "subtitle": "",
+            "description": "",
+            "type": 3,
+            "options": [
+              {
+                "id": "opt-3-1-2-1",
+                "title": "Sim, definitivamente",
+                "value": "sim_definitivamente",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-3-1-2-2",
+                "title": "Sim, provavelmente",
+                "value": "sim_provavelmente",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-3-1-2-3",
+                "title": "Não",
+                "value": "nao",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 1000
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Triagem de Sintomas",
+    "createdAt": "2024-02-10T08:30:00Z",
+    "updatedAt": "2024-02-12T15:20:00Z",
+    "steps": [
+      {
+        "id": "step-4-1",
+        "title": "1 - Sintomas Atuais",
+        "subtitle": "",
+        "description": "Identifique os sintomas apresentados",
+        "stepNumber": 1,
+        "questions": [
+          {
+            "id": "q-4-1-1",
+            "order": 1,
+            "title": "Quais sintomas você está apresentando?",
+            "subtitle": "Selecione todos os que se aplicam",
+            "description": "",
+            "type": 4,
+            "options": [
+              {
+                "id": "opt-4-1-1-1",
+                "title": "Dor",
+                "value": "dor",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 200
+              },
+              {
+                "id": "opt-4-1-1-2",
+                "title": "Febre",
+                "value": "febre",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-4-1-1-3",
+                "title": "Tosse",
+                "value": "tosse",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 150
+              },
+              {
+                "id": "opt-4-1-1-4",
+                "title": "Fadiga",
+                "value": "fadiga",
+                "enableExtraAnswer": false
+              }
+            ]
+          },
+          {
+            "id": "q-4-1-2",
+            "order": 2,
+            "title": "Descreva os sintomas em detalhes",
+            "subtitle": "",
+            "description": "Forneça mais informações sobre os sintomas",
+            "type": 2,
+            "options": [],
+            "maxLength": 1500
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "title": "Consulta de Retorno",
+    "createdAt": "2024-02-15T13:45:00Z",
+    "updatedAt": "2024-02-18T09:30:00Z",
+    "steps": [
+      {
+        "id": "step-5-1",
+        "title": "1 - Evolução",
+        "subtitle": "Acompanhamento",
+        "description": "Avaliação da evolução do paciente",
+        "stepNumber": 1,
+        "questions": [
+          {
+            "id": "q-5-1-1",
+            "order": 1,
+            "title": "Como está a evolução?",
+            "subtitle": "",
+            "description": "",
+            "type": 3,
+            "options": [
+              {
+                "id": "opt-5-1-1-1",
+                "title": "Melhorou muito",
+                "value": "melhorou_muito",
+                "enableExtraAnswer": false
+              },
+              {
+                "id": "opt-5-1-1-2",
+                "title": "Melhorou pouco",
+                "value": "melhorou_pouco",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 400
+              },
+              {
+                "id": "opt-5-1-1-3",
+                "title": "Sem mudanças",
+                "value": "sem_mudancas",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 500
+              },
+              {
+                "id": "opt-5-1-1-4",
+                "title": "Piorou",
+                "value": "piorou",
+                "enableExtraAnswer": true,
+                "extraAnswerMaxLength": 1000
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
+

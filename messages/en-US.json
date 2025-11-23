@@ -1,0 +1,91 @@
+{
+  "preferences": {
+    "title": "Preferences",
+    "description": "Customize the appearance and behavior of the dashboard.",
+    "theme": {
+      "title": "Dark mode",
+      "description": "Set how the dashboard should behave.",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "system": "System",
+      "useSystem": "Use system preference",
+      "currentTheme": "Current theme",
+      "followSystem": "Follow system",
+      "followSystemDesc": "Automatically detects your device theme.",
+      "toggle": "Toggle"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Choose the display language for the dashboard."
+    },
+    "other": {
+      "title": "Other preferences",
+      "description": "More customization options will be available soon.",
+      "content": "You can add settings here such as language, notifications, and other personal preferences."
+    }
+  },
+  "menu": {
+    "sections": {
+      "overview": "Overview",
+      "catalog": "Products and services",
+      "finance": "Finance",
+      "workspace": "Workspace"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "reports": "Reports",
+      "executionFlow": "Execution flows",
+      "products": "Products",
+      "services": "Services",
+      "customer": "Customers",
+      "paymentMethod": "Payment method",
+      "negotiations": "Negotiations",
+      "promotions": "Promotions",
+      "transactions": "Transactions",
+      "invoices": "Invoices",
+      "settings": "Settings",
+      "feedback": "Feedback",
+      "help": "Help"
+    },
+    "userMenu": {
+      "profile": "Profile",
+      "preferences": "Preferences",
+      "logout": "Logout",
+      "loggingOut": "Logging out..."
+    },
+    "topBar": {
+      "searchPlaceholder": "Search orders, customers...",
+      "salesCockpit": "Sales cockpit"
+    },
+    "pages": {
+      "executionFlow": {
+        "title": "Execution flows",
+        "description": "Manage your execution flows and settings"
+      },
+      "dashboard": {
+        "title": "Dashboard"
+      }
+    }
+  },
+  "modules": {
+    "administrativo": {
+      "name": "Administrative",
+      "description": "Administrative management"
+    },
+    "operacional": {
+      "name": "Operational",
+      "description": "Operational management"
+    },
+    "fiscal": {
+      "name": "Tax",
+      "description": "Tax management"
+    },
+    "financeiro": {
+      "name": "Financial",
+      "description": "Financial management"
+    },
+    "searchPlaceholder": "Search modules...",
+    "noModulesFound": "No modules found"
+  }
+}
+
