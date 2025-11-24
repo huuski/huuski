@@ -108,17 +108,19 @@ export async function fetchExecutionFlows(): Promise<ExecutionFlow[]> {
               maxImages: apiQuestion.maxImages,
               acceptedImageTypes: apiQuestion.acceptedImageTypes,
               defaultStockItems: apiQuestion.defaultStockItems
-                ? apiQuestion.defaultStockItems.map((item: any) => {
-                    const supplyId = item.supplyId || item.productId;
-                    if (!supplyId) {
-                      console.warn("defaultStockItem sem supplyId ou productId:", item);
-                      return null;
-                    }
-                    return {
-                      supplyId,
-                      quantity: item.quantity,
-                    };
-                  }).filter((item: any) => item !== null)
+                ? apiQuestion.defaultStockItems
+                    .map((item: any) => {
+                      const supplyId = item.supplyId || item.productId;
+                      if (!supplyId) {
+                        console.warn("defaultStockItem sem supplyId ou productId:", item);
+                        return null;
+                      }
+                      return {
+                        supplyId,
+                        quantity: item.quantity,
+                      };
+                    })
+                    .filter((item): item is { supplyId: string; quantity: number } => item !== null)
                 : undefined,
             })),
           })),
@@ -249,17 +251,19 @@ export async function fetchExecutionFlowById(id: string): Promise<ExecutionFlow>
             maxImages: apiQuestion.maxImages,
             acceptedImageTypes: apiQuestion.acceptedImageTypes,
             defaultStockItems: apiQuestion.defaultStockItems
-              ? apiQuestion.defaultStockItems.map((item: any) => {
-                  const supplyId = item.supplyId || item.productId;
-                  if (!supplyId) {
-                    console.warn("defaultStockItem sem supplyId ou productId:", item);
-                    return null;
-                  }
-                  return {
-                    supplyId,
-                    quantity: item.quantity,
-                  };
-                }).filter((item: any) => item !== null)
+              ? apiQuestion.defaultStockItems
+                  .map((item: any) => {
+                    const supplyId = item.supplyId || item.productId;
+                    if (!supplyId) {
+                      console.warn("defaultStockItem sem supplyId ou productId:", item);
+                      return null;
+                    }
+                    return {
+                      supplyId,
+                      quantity: item.quantity,
+                    };
+                  })
+                  .filter((item): item is { supplyId: string; quantity: number } => item !== null)
               : undefined,
           })),
         })),
@@ -431,17 +435,19 @@ export async function createExecutionFlow(
             maxImages: apiQuestion.maxImages,
             acceptedImageTypes: apiQuestion.acceptedImageTypes,
             defaultStockItems: apiQuestion.defaultStockItems
-              ? apiQuestion.defaultStockItems.map((item: any) => {
-                  const supplyId = item.supplyId || item.productId;
-                  if (!supplyId) {
-                    console.warn("defaultStockItem sem supplyId ou productId:", item);
-                    return null;
-                  }
-                  return {
-                    supplyId,
-                    quantity: item.quantity,
-                  };
-                }).filter((item: any) => item !== null)
+              ? apiQuestion.defaultStockItems
+                  .map((item: any) => {
+                    const supplyId = item.supplyId || item.productId;
+                    if (!supplyId) {
+                      console.warn("defaultStockItem sem supplyId ou productId:", item);
+                      return null;
+                    }
+                    return {
+                      supplyId,
+                      quantity: item.quantity,
+                    };
+                  })
+                  .filter((item): item is { supplyId: string; quantity: number } => item !== null)
               : undefined,
           })),
         })),
