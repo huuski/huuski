@@ -4,6 +4,7 @@ export enum QuestionType {
   SINGLE_SELECT = 3,
   MULTI_SELECT = 4,
   IMAGE_UPLOAD = 5,
+  STOCK_CONTROL = 6,
 }
 
 export type ExecutionFlowStepQuestionOption = {

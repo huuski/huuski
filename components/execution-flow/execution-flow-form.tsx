@@ -279,6 +279,7 @@ export function ExecutionFlowForm({ onSubmit, initialData, loading = false }: Ex
     [QuestionType.SINGLE_SELECT]: "Seleção única",
     [QuestionType.MULTI_SELECT]: "Seleção múltipla",
     [QuestionType.IMAGE_UPLOAD]: "Upload de fotos",
+    [QuestionType.STOCK_CONTROL]: "Controle de estoque",
   };
 
   const getStepValidationStatus = (step: ExecutionFlowStep) => {
@@ -289,6 +290,7 @@ export function ExecutionFlowForm({ onSubmit, initialData, loading = false }: Ex
         q.type === QuestionType.TEXT || 
         q.type === QuestionType.TEXTAREA || 
         q.type === QuestionType.IMAGE_UPLOAD ||
+        q.type === QuestionType.STOCK_CONTROL ||
         q.options.length > 0
       ),
     );
@@ -533,6 +535,7 @@ export function ExecutionFlowForm({ onSubmit, initialData, loading = false }: Ex
                     (question.type === QuestionType.TEXT ||
                       question.type === QuestionType.TEXTAREA ||
                       question.type === QuestionType.IMAGE_UPLOAD ||
+                      question.type === QuestionType.STOCK_CONTROL ||
                       question.options.length > 0);
                   const isQuestionExpanded = expandedQuestions.has(question.id);
                   return (
@@ -735,6 +738,18 @@ export function ExecutionFlowForm({ onSubmit, initialData, loading = false }: Ex
                             />
                             <p className="text-xs text-muted-foreground">
                               Ex: image/jpeg, image/png, image/webp
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {question.type === QuestionType.STOCK_CONTROL && (
+                        <div className="space-y-2 rounded-lg border bg-muted/30 p-4">
+                          <div className="flex items-center gap-2">
+                            <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground">
+                              Este tipo de pergunta permite selecionar produtos e controlar quantidades em estoque.
+                              Os produtos serão carregados dinamicamente durante a execução do fluxo.
                             </p>
                           </div>
                         </div>

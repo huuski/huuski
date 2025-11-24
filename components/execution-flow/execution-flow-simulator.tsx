@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, Check, Upload, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Check, Upload, X, Plus, Minus, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/select";
 import type { ExecutionFlow, QuestionType, ExecutionFlowStepQuestion } from "@/lib/types/execution-flow";
 import { QuestionType as QT } from "@/lib/types/execution-flow";
+import { fetchProducts } from "@/lib/api/product";
+import type { Product } from "@/lib/types/product";
 
 type AnswerValue = string | string[] | undefined;
 
@@ -32,6 +34,192 @@ type ExecutionFlowSimulatorProps = {
   extraAnswers?: Record<string, string>;
   onExtraAnswerChange?: (optionId: string, value: string) => void;
 };
+
+type StockControlData = {
+  [productId: string]: number;
+};
+
+type StockControlQuestionProps = {
+  question: ExecutionFlowStepQuestion;
+  answer: AnswerValue;
+  onAnswerChange: (value: AnswerValue) => void;
+};
+
+function StockControlQuestion({ question, answer, onAnswerChange }: StockControlQuestionProps) {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedProducts, setSelectedProducts] = useState<StockControlData>(() => {
+    try {
+      if (answer && typeof answer === "string") {
+        return JSON.parse(answer);
+      }
+    } catch {
+      // Ignore parse errors
+    }
+    return {};
+  });
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error loading products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
+  const handleProductToggle = (productId: string) => {
+    const newSelected = { ...selectedProducts };
+    if (newSelected[productId]) {
+      delete newSelected[productId];
+    } else {
+      newSelected[productId] = 0;
+    }
+    setSelectedProducts(newSelected);
+    onAnswerChange(JSON.stringify(newSelected));
+  };
+
+  const handleQuantityChange = (productId: string, quantity: number) => {
+    const newSelected = { ...selectedProducts };
+    if (quantity <= 0) {
+      delete newSelected[productId];
+    } else {
+      newSelected[productId] = quantity;
+    }
+    setSelectedProducts(newSelected);
+    onAnswerChange(JSON.stringify(newSelected));
+  };
+
+  if (loading) {
+    return (
+      <div className="space-y-3">
+        <p className="text-sm text-muted-foreground">Carregando produtos...</p>
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="space-y-3">
+        <p className="text-sm text-muted-foreground">Nenhum produto disponível.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="space-y-2">
+        {products.map((product) => {
+          const isSelected = product.id in selectedProducts;
+          const quantity = selectedProducts[product.id] || 0;
+
+          return (
+            <div
+              key={product.id}
+              className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+                isSelected ? "bg-primary/5 border-primary/20" : "bg-background"
+              }`}
+            >
+              <div className="flex items-center gap-2 flex-1">
+                <input
+                  type="checkbox"
+                  id={`product-${product.id}`}
+                  checked={isSelected}
+                  onChange={() => handleProductToggle(product.id)}
+                  className="h-4 w-4 rounded border-gray-300"
+                />
+                <Label htmlFor={`product-${product.id}`} className="cursor-pointer flex-1">
+                  <div className="flex items-center gap-2">
+                    <Package className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">{product.name}</span>
+                    <span className="text-sm text-muted-foreground">
+                      - R$ {product.price.toFixed(2)}
+                    </span>
+                  </div>
+                  {product.description && (
+                    <p className="text-xs text-muted-foreground mt-1">{product.description}</p>
+                  )}
+                </Label>
+              </div>
+              {isSelected && (
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => handleQuantityChange(product.id, Math.max(0, quantity - 1))}
+                  >
+                    <Minus className="h-4 w-4" />
+                  </Button>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quantity}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value) || 0;
+                      handleQuantityChange(product.id, value);
+                    }}
+                    className="w-20 text-center"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => handleQuantityChange(product.id, quantity + 1)}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {Object.keys(selectedProducts).length > 0 && (
+        <div className="mt-4 p-3 rounded-lg bg-muted/30 border">
+          <p className="text-sm font-medium mb-2">Resumo:</p>
+          <div className="space-y-1">
+            {Object.entries(selectedProducts).map(([productId, qty]) => {
+              const product = products.find((p) => p.id === productId);
+              if (!product) return null;
+              return (
+                <div key={productId} className="flex justify-between text-sm">
+                  <span>{product.name}</span>
+                  <span>
+                    {qty} x R$ {product.price.toFixed(2)} = R$ {(qty * product.price).toFixed(2)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-2 pt-2 border-t">
+            <div className="flex justify-between font-semibold">
+              <span>Total:</span>
+              <span>
+                R${" "}
+                {Object.entries(selectedProducts)
+                  .reduce((sum, [productId, qty]) => {
+                    const product = products.find((p) => p.id === productId);
+                    return sum + (product ? qty * product.price : 0);
+                  }, 0)
+                  .toFixed(2)}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function ExecutionFlowSimulator({
   flow,
@@ -88,6 +276,7 @@ export function ExecutionFlowSimulator({
       [QT.SINGLE_SELECT]: "Seleção única",
       [QT.MULTI_SELECT]: "Seleção múltipla",
       [QT.IMAGE_UPLOAD]: "Upload de fotos",
+      [QT.STOCK_CONTROL]: "Controle de estoque",
     };
 
     return (
@@ -364,6 +553,14 @@ export function ExecutionFlowSimulator({
                 </p>
               )}
             </div>
+          )}
+
+          {question.type === QT.STOCK_CONTROL && (
+            <StockControlQuestion
+              question={question}
+              answer={answer}
+              onAnswerChange={(value) => handleAnswerChange(question.id, value)}
+            />
           )}
         </CardContent>
       </Card>

@@ -445,7 +445,7 @@ export function getExecutionFlows(): ExecutionFlow[] {
     ...flow,
     createdAt: new Date(flow.createdAt),
     updatedAt: new Date(flow.updatedAt),
-    deletedAt: flow.deletedAt ? new Date(flow.deletedAt) : undefined,
+    deletedAt: undefined, // deletedAt não existe nos dados mockados
     steps: flow.steps.map((step) => ({
       ...step,
       questions: step.questions.map((question) => ({
