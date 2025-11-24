@@ -1,6 +1,20 @@
 import { NextResponse } from "next/server";
+import { getAuthToken } from "@/lib/api/get-auth-token";
 
 const API_BASE_URL = process.env.API_URL || "https://your-api-name-production.up.railway.app";
+
+async function getHeaders(): Promise<HeadersInit> {
+  const token = await getAuthToken();
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+  
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  
+  return headers;
+}
 
 export async function GET(
   request: Request,
@@ -8,11 +22,10 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+    const headers = await getHeaders();
     const response = await fetch(`${API_BASE_URL}/api/executionflow/${id}`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       cache: "no-store",
     });
 
@@ -49,11 +62,10 @@ export async function PUT(
     console.log("PUT request to external API:", `${API_BASE_URL}/api/executionflow/${id}`);
     console.log("Request body:", JSON.stringify(body, null, 2));
     
+    const headers = await getHeaders();
     const response = await fetch(`${API_BASE_URL}/api/executionflow/${id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify(body),
       cache: "no-store",
     });
