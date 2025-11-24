@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/select";
 import type { ExecutionFlow, QuestionType, ExecutionFlowStepQuestion } from "@/lib/types/execution-flow";
 import { QuestionType as QT } from "@/lib/types/execution-flow";
-import { fetchProducts } from "@/lib/api/product";
-import type { Product } from "@/lib/types/product";
+import { fetchSupplies } from "@/lib/api/supply";
+import type { Supply } from "@/lib/types/supply";
 
 type AnswerValue = string | string[] | undefined;
 
@@ -36,7 +36,7 @@ type ExecutionFlowSimulatorProps = {
 };
 
 type StockControlData = {
-  [productId: string]: number;
+  [supplyId: string]: number;
 };
 
 type StockControlQuestionProps = {
@@ -46,9 +46,9 @@ type StockControlQuestionProps = {
 };
 
 function StockControlQuestion({ question, answer, onAnswerChange }: StockControlQuestionProps) {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [supplies, setSupplies] = useState<Supply[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedProducts, setSelectedProducts] = useState<StockControlData>(() => {
+  const [selectedSupplies, setSelectedSupplies] = useState<StockControlData>(() => {
     try {
       if (answer && typeof answer === "string") {
         return JSON.parse(answer);
@@ -56,59 +56,84 @@ function StockControlQuestion({ question, answer, onAnswerChange }: StockControl
     } catch {
       // Ignore parse errors
     }
+    // Se não houver resposta, usar suprimentos padrão da pergunta
+    const defaultItems = question.defaultStockItems || [];
+    if (defaultItems.length > 0) {
+      const defaultData: StockControlData = {};
+      defaultItems.forEach((item) => {
+        defaultData[item.supplyId] = item.quantity;
+      });
+      return defaultData;
+    }
     return {};
   });
 
   useEffect(() => {
-    const loadProducts = async () => {
+    const loadSupplies = async () => {
       try {
         setLoading(true);
-        const data = await fetchProducts();
-        setProducts(data);
+        const data = await fetchSupplies();
+        setSupplies(data);
       } catch (error) {
-        console.error("Error loading products:", error);
+        console.error("Error loading supplies:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    loadProducts();
+    loadSupplies();
   }, []);
 
-  const handleProductToggle = (productId: string) => {
-    const newSelected = { ...selectedProducts };
-    if (newSelected[productId]) {
-      delete newSelected[productId];
-    } else {
-      newSelected[productId] = 0;
+  // Inicializar com suprimentos padrão apenas uma vez quando não houver resposta
+  useEffect(() => {
+    if (!answer && question.defaultStockItems && question.defaultStockItems.length > 0) {
+      const defaultData: StockControlData = {};
+      question.defaultStockItems.forEach((item) => {
+        defaultData[item.supplyId] = item.quantity;
+      });
+      // Só atualizar se o estado atual estiver vazio
+      if (Object.keys(selectedSupplies).length === 0) {
+        setSelectedSupplies(defaultData);
+        onAnswerChange(JSON.stringify(defaultData));
+      }
     }
-    setSelectedProducts(newSelected);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question.defaultStockItems]);
+
+  const handleSupplyToggle = (supplyId: string) => {
+    const newSelected = { ...selectedSupplies };
+    if (newSelected[supplyId]) {
+      delete newSelected[supplyId];
+    } else {
+      newSelected[supplyId] = 0;
+    }
+    setSelectedSupplies(newSelected);
     onAnswerChange(JSON.stringify(newSelected));
   };
 
-  const handleQuantityChange = (productId: string, quantity: number) => {
-    const newSelected = { ...selectedProducts };
+  const handleQuantityChange = (supplyId: string, quantity: number) => {
+    const newSelected = { ...selectedSupplies };
     if (quantity <= 0) {
-      delete newSelected[productId];
+      delete newSelected[supplyId];
     } else {
-      newSelected[productId] = quantity;
+      newSelected[supplyId] = quantity;
     }
-    setSelectedProducts(newSelected);
+    setSelectedSupplies(newSelected);
     onAnswerChange(JSON.stringify(newSelected));
   };
 
   if (loading) {
     return (
       <div className="space-y-3">
-        <p className="text-sm text-muted-foreground">Carregando produtos...</p>
+        <p className="text-sm text-muted-foreground">Carregando suprimentos...</p>
       </div>
     );
   }
 
-  if (products.length === 0) {
+  if (supplies.length === 0) {
     return (
       <div className="space-y-3">
-        <p className="text-sm text-muted-foreground">Nenhum produto disponível.</p>
+        <p className="text-sm text-muted-foreground">Nenhum suprimento disponível.</p>
       </div>
     );
   }
@@ -116,13 +141,13 @@ function StockControlQuestion({ question, answer, onAnswerChange }: StockControl
   return (
     <div className="space-y-3">
       <div className="space-y-2">
-        {products.map((product) => {
-          const isSelected = product.id in selectedProducts;
-          const quantity = selectedProducts[product.id] || 0;
+        {supplies.map((supply) => {
+          const isSelected = supply.id in selectedSupplies;
+          const quantity = selectedSupplies[supply.id] || 0;
 
           return (
             <div
-              key={product.id}
+              key={supply.id}
               className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
                 isSelected ? "bg-primary/5 border-primary/20" : "bg-background"
               }`}
@@ -130,21 +155,18 @@ function StockControlQuestion({ question, answer, onAnswerChange }: StockControl
               <div className="flex items-center gap-2 flex-1">
                 <input
                   type="checkbox"
-                  id={`product-${product.id}`}
+                  id={`supply-${supply.id}`}
                   checked={isSelected}
-                  onChange={() => handleProductToggle(product.id)}
+                  onChange={() => handleSupplyToggle(supply.id)}
                   className="h-4 w-4 rounded border-gray-300"
                 />
-                <Label htmlFor={`product-${product.id}`} className="cursor-pointer flex-1">
+                <Label htmlFor={`supply-${supply.id}`} className="cursor-pointer flex-1">
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">{product.name}</span>
-                    <span className="text-sm text-muted-foreground">
-                      - R$ {product.price.toFixed(2)}
-                    </span>
+                    <span className="font-medium">{supply.name}</span>
                   </div>
-                  {product.description && (
-                    <p className="text-xs text-muted-foreground mt-1">{product.description}</p>
+                  {supply.description && (
+                    <p className="text-xs text-muted-foreground mt-1">{supply.description}</p>
                   )}
                 </Label>
               </div>
@@ -155,7 +177,7 @@ function StockControlQuestion({ question, answer, onAnswerChange }: StockControl
                     variant="outline"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => handleQuantityChange(product.id, Math.max(0, quantity - 1))}
+                    onClick={() => handleQuantityChange(supply.id, Math.max(0, quantity - 1))}
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
@@ -165,7 +187,7 @@ function StockControlQuestion({ question, answer, onAnswerChange }: StockControl
                     value={quantity}
                     onChange={(e) => {
                       const value = parseInt(e.target.value) || 0;
-                      handleQuantityChange(product.id, value);
+                      handleQuantityChange(supply.id, value);
                     }}
                     className="w-20 text-center"
                   />
@@ -174,7 +196,7 @@ function StockControlQuestion({ question, answer, onAnswerChange }: StockControl
                     variant="outline"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => handleQuantityChange(product.id, quantity + 1)}
+                    onClick={() => handleQuantityChange(supply.id, quantity + 1)}
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
@@ -184,36 +206,20 @@ function StockControlQuestion({ question, answer, onAnswerChange }: StockControl
           );
         })}
       </div>
-      {Object.keys(selectedProducts).length > 0 && (
+      {Object.keys(selectedSupplies).length > 0 && (
         <div className="mt-4 p-3 rounded-lg bg-muted/30 border">
           <p className="text-sm font-medium mb-2">Resumo:</p>
           <div className="space-y-1">
-            {Object.entries(selectedProducts).map(([productId, qty]) => {
-              const product = products.find((p) => p.id === productId);
-              if (!product) return null;
+            {Object.entries(selectedSupplies).map(([supplyId, qty]) => {
+              const supply = supplies.find((s) => s.id === supplyId);
+              if (!supply) return null;
               return (
-                <div key={productId} className="flex justify-between text-sm">
-                  <span>{product.name}</span>
-                  <span>
-                    {qty} x R$ {product.price.toFixed(2)} = R$ {(qty * product.price).toFixed(2)}
-                  </span>
+                <div key={supplyId} className="flex justify-between text-sm">
+                  <span>{supply.name}</span>
+                  <span>Quantidade: {qty}</span>
                 </div>
               );
             })}
-          </div>
-          <div className="mt-2 pt-2 border-t">
-            <div className="flex justify-between font-semibold">
-              <span>Total:</span>
-              <span>
-                R${" "}
-                {Object.entries(selectedProducts)
-                  .reduce((sum, [productId, qty]) => {
-                    const product = products.find((p) => p.id === productId);
-                    return sum + (product ? qty * product.price : 0);
-                  }, 0)
-                  .toFixed(2)}
-              </span>
-            </div>
           </div>
         </div>
       )}

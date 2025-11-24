@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const API_BASE_URL = process.env.API_URL || "http://localhost:5026";
+const API_BASE_URL = process.env.API_URL || "https://your-api-name-production.up.railway.app";
 
 export async function POST(request: Request) {
   try {

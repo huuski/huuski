@@ -29,6 +29,7 @@ export type ApiExecutionFlowStepQuestion = {
   maxLength?: number;
   maxImages?: number;
   acceptedImageTypes?: string[];
+  defaultStockItems?: Array<{ supplyId?: string; productId?: string; quantity: number }>;
 };
 
 export type ApiExecutionFlowStepQuestionOption = {
@@ -106,6 +107,19 @@ export async function fetchExecutionFlows(): Promise<ExecutionFlow[]> {
               maxLength: apiQuestion.maxLength,
               maxImages: apiQuestion.maxImages,
               acceptedImageTypes: apiQuestion.acceptedImageTypes,
+              defaultStockItems: apiQuestion.defaultStockItems
+                ? apiQuestion.defaultStockItems.map((item: any) => {
+                    const supplyId = item.supplyId || item.productId;
+                    if (!supplyId) {
+                      console.warn("defaultStockItem sem supplyId ou productId:", item);
+                      return null;
+                    }
+                    return {
+                      supplyId,
+                      quantity: item.quantity,
+                    };
+                  }).filter((item: any) => item !== null)
+                : undefined,
             })),
           })),
         };
@@ -234,6 +248,19 @@ export async function fetchExecutionFlowById(id: string): Promise<ExecutionFlow>
             maxLength: apiQuestion.maxLength,
             maxImages: apiQuestion.maxImages,
             acceptedImageTypes: apiQuestion.acceptedImageTypes,
+            defaultStockItems: apiQuestion.defaultStockItems
+              ? apiQuestion.defaultStockItems.map((item: any) => {
+                  const supplyId = item.supplyId || item.productId;
+                  if (!supplyId) {
+                    console.warn("defaultStockItem sem supplyId ou productId:", item);
+                    return null;
+                  }
+                  return {
+                    supplyId,
+                    quantity: item.quantity,
+                  };
+                }).filter((item: any) => item !== null)
+              : undefined,
           })),
         })),
       };
@@ -403,6 +430,19 @@ export async function createExecutionFlow(
             maxLength: apiQuestion.maxLength,
             maxImages: apiQuestion.maxImages,
             acceptedImageTypes: apiQuestion.acceptedImageTypes,
+            defaultStockItems: apiQuestion.defaultStockItems
+              ? apiQuestion.defaultStockItems.map((item: any) => {
+                  const supplyId = item.supplyId || item.productId;
+                  if (!supplyId) {
+                    console.warn("defaultStockItem sem supplyId ou productId:", item);
+                    return null;
+                  }
+                  return {
+                    supplyId,
+                    quantity: item.quantity,
+                  };
+                }).filter((item: any) => item !== null)
+              : undefined,
           })),
         })),
       };

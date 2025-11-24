@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, Trash2, GripVertical, X, AlertCircle, CheckCircle2, HelpCircle, ChevronDown, ChevronUp, ArrowUp, ArrowDown, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Trash2, GripVertical, X, AlertCircle, CheckCircle2, HelpCircle, ChevronDown, ChevronUp, ArrowUp, ArrowDown, Loader2, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,13 +27,172 @@ import {
   type ExecutionFlowStep,
   type ExecutionFlowStepQuestion,
   type ExecutionFlowStepQuestionOption,
+  type DefaultStockItem,
 } from "@/lib/types/execution-flow";
+import { fetchSupplies } from "@/lib/api/supply";
+import type { Supply } from "@/lib/types/supply";
 
 type ExecutionFlowFormProps = {
   onSubmit: (data: { title: string; steps: ExecutionFlowStep[] }) => void | Promise<void>;
   initialData?: { title: string; steps: ExecutionFlowStep[] };
   loading?: boolean;
 };
+
+type StockControlConfigProps = {
+  stepId: string;
+  question: ExecutionFlowStepQuestion;
+  onAddItem: (stepId: string, questionId: string, supplyId: string) => void;
+  onRemoveItem: (stepId: string, questionId: string, supplyId: string) => void;
+  onUpdateQuantity: (stepId: string, questionId: string, supplyId: string, quantity: number) => void;
+};
+
+function StockControlConfig({
+  stepId,
+  question,
+  onAddItem,
+  onRemoveItem,
+  onUpdateQuantity,
+}: StockControlConfigProps) {
+  const [supplies, setSupplies] = useState<Supply[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedSupplyId, setSelectedSupplyId] = useState<string>("");
+
+  useEffect(() => {
+    const loadSupplies = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchSupplies();
+        setSupplies(data);
+      } catch (error) {
+        console.error("Error loading supplies:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSupplies();
+  }, []);
+
+  const defaultItems = question.defaultStockItems || [];
+  const availableSupplies = supplies.filter(
+    (s) => !defaultItems.some((item) => item.supplyId === s.id),
+  );
+
+  const handleAddSupply = () => {
+    if (selectedSupplyId) {
+      onAddItem(stepId, question.id, selectedSupplyId);
+      setSelectedSupplyId("");
+    }
+  };
+
+  return (
+    <div className="space-y-3 rounded-lg border bg-background p-4">
+      <div className="flex items-center justify-between">
+        <div>
+            <h5 className="text-sm font-semibold flex items-center gap-2">
+              Suprimentos Padrão
+              <Badge variant="outline" className="text-xs">
+                {defaultItems.length} suprimento{defaultItems.length !== 1 ? "s" : ""}
+              </Badge>
+            </h5>
+            <p className="text-xs text-muted-foreground">
+              Defina suprimentos e quantidades padrão que serão pré-selecionados ao iniciar o fluxo
+            </p>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="text-center py-4 text-sm text-muted-foreground">
+          Carregando suprimentos...
+        </div>
+      ) : (
+        <>
+          <div className="flex gap-2">
+            <Select value={selectedSupplyId} onValueChange={setSelectedSupplyId}>
+              <SelectTrigger className="flex-1">
+                <SelectValue placeholder="Selecione um suprimento" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableSupplies.length === 0 ? (
+                  <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                    Nenhum suprimento disponível
+                  </div>
+                ) : (
+                  availableSupplies.map((supply) => (
+                    <SelectItem key={supply.id} value={supply.id}>
+                      {supply.name}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleAddSupply}
+              disabled={!selectedSupplyId}
+            >
+              <Plus className="mr-2 h-3 w-3" />
+              Adicionar
+            </Button>
+          </div>
+
+          {defaultItems.length === 0 ? (
+            <div className="text-center py-4 text-sm text-muted-foreground border border-dashed rounded-md">
+              <AlertCircle className="h-4 w-4 mx-auto mb-2" />
+              Nenhum suprimento padrão adicionado. Adicione suprimentos que serão pré-selecionados.
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {defaultItems.map((item) => {
+                const supply = supplies.find((s) => s.id === item.supplyId);
+                if (!supply) return null;
+
+                return (
+                  <div
+                    key={item.supplyId}
+                    className="flex items-center gap-3 p-3 rounded-md border bg-card"
+                  >
+                    <Package className="h-4 w-4 text-muted-foreground" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">{supply.name}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Label htmlFor={`qty-${item.supplyId}`} className="text-xs">
+                        Qtd:
+                      </Label>
+                      <Input
+                        id={`qty-${item.supplyId}`}
+                        type="number"
+                        min="1"
+                        value={item.quantity}
+                        onChange={(e) => {
+                          const qty = parseInt(e.target.value) || 1;
+                          onUpdateQuantity(stepId, question.id, item.supplyId, qty);
+                        }}
+                        className="w-20"
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-destructive hover:text-destructive"
+                      onClick={() => onRemoveItem(stepId, question.id, item.supplyId)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
 
 export function ExecutionFlowForm({ onSubmit, initialData, loading = false }: ExecutionFlowFormProps) {
   const [title, setTitle] = useState(initialData?.title || "");
@@ -256,6 +415,87 @@ export function ExecutionFlowForm({ onSubmit, initialData, loading = false }: Ex
                   ...q,
                   options: q.options.map((o) =>
                     o.id === optionId ? { ...o, ...updates } : o,
+                  ),
+                };
+              }
+              return q;
+            }),
+          };
+        }
+        return s;
+      }),
+    );
+  };
+
+  const addDefaultStockItem = (stepId: string, questionId: string, supplyId: string) => {
+    setSteps(
+      steps.map((s) => {
+        if (s.id === stepId) {
+          return {
+            ...s,
+            questions: s.questions.map((q) => {
+              if (q.id === questionId) {
+                const currentItems = q.defaultStockItems || [];
+                // Verificar se o suprimento já existe
+                if (currentItems.some((item) => item.supplyId === supplyId)) {
+                  return q;
+                }
+                return {
+                  ...q,
+                  defaultStockItems: [...currentItems, { supplyId, quantity: 1 }],
+                };
+              }
+              return q;
+            }),
+          };
+        }
+        return s;
+      }),
+    );
+  };
+
+  const removeDefaultStockItem = (stepId: string, questionId: string, supplyId: string) => {
+    setSteps(
+      steps.map((s) => {
+        if (s.id === stepId) {
+          return {
+            ...s,
+            questions: s.questions.map((q) => {
+              if (q.id === questionId) {
+                return {
+                  ...q,
+                  defaultStockItems: (q.defaultStockItems || []).filter(
+                    (item) => item.supplyId !== supplyId,
+                  ),
+                };
+              }
+              return q;
+            }),
+          };
+        }
+        return s;
+      }),
+    );
+  };
+
+  const updateDefaultStockItemQuantity = (
+    stepId: string,
+    questionId: string,
+    supplyId: string,
+    quantity: number,
+  ) => {
+    setSteps(
+      steps.map((s) => {
+        if (s.id === stepId) {
+          return {
+            ...s,
+            questions: s.questions.map((q) => {
+              if (q.id === questionId) {
+                const currentItems = q.defaultStockItems || [];
+                return {
+                  ...q,
+                  defaultStockItems: currentItems.map((item) =>
+                    item.supplyId === supplyId ? { ...item, quantity } : item,
                   ),
                 };
               }
@@ -744,15 +984,13 @@ export function ExecutionFlowForm({ onSubmit, initialData, loading = false }: Ex
                       )}
 
                       {question.type === QuestionType.STOCK_CONTROL && (
-                        <div className="space-y-2 rounded-lg border bg-muted/30 p-4">
-                          <div className="flex items-center gap-2">
-                            <AlertCircle className="h-4 w-4 text-muted-foreground" />
-                            <p className="text-sm text-muted-foreground">
-                              Este tipo de pergunta permite selecionar produtos e controlar quantidades em estoque.
-                              Os produtos serão carregados dinamicamente durante a execução do fluxo.
-                            </p>
-                          </div>
-                        </div>
+                        <StockControlConfig
+                          stepId={step.id}
+                          question={question}
+                          onAddItem={addDefaultStockItem}
+                          onRemoveItem={removeDefaultStockItem}
+                          onUpdateQuantity={updateDefaultStockItemQuantity}
+                        />
                       )}
 
                       {(question.type === QuestionType.SINGLE_SELECT ||

@@ -138,6 +138,9 @@ export default function ProductsPage() {
               if (question.acceptedImageTypes !== undefined && question.acceptedImageTypes !== null && question.acceptedImageTypes.length > 0) {
                 cleanedQuestion.acceptedImageTypes = question.acceptedImageTypes;
               }
+              if (question.defaultStockItems !== undefined && question.defaultStockItems !== null && question.defaultStockItems.length > 0) {
+                cleanedQuestion.defaultStockItems = question.defaultStockItems;
+              }
               
               return cleanedQuestion;
             }),
@@ -211,6 +214,9 @@ export default function ProductsPage() {
               }
               if (question.acceptedImageTypes !== undefined && question.acceptedImageTypes !== null && question.acceptedImageTypes.length > 0) {
                 cleanedQuestion.acceptedImageTypes = question.acceptedImageTypes;
+              }
+              if (question.defaultStockItems !== undefined && question.defaultStockItems !== null && question.defaultStockItems.length > 0) {
+                cleanedQuestion.defaultStockItems = question.defaultStockItems;
               }
               
               return cleanedQuestion;

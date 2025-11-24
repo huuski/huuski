@@ -15,6 +15,11 @@ export type ExecutionFlowStepQuestionOption = {
   extraAnswerMaxLength?: number;
 };
 
+export type DefaultStockItem = {
+  supplyId: string;
+  quantity: number;
+};
+
 export type ExecutionFlowStepQuestion = {
   id: string;
   order: number;
@@ -27,6 +32,7 @@ export type ExecutionFlowStepQuestion = {
   maxLength?: number;
   maxImages?: number;
   acceptedImageTypes?: string[];
+  defaultStockItems?: DefaultStockItem[];
 };
 
 export type ExecutionFlowStep = {

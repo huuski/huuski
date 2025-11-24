@@ -21,7 +21,7 @@ export async function loginAction(_: AuthState | undefined, formData: FormData):
 
   try {
     // Chamar a API de login diretamente (server-side)
-    const API_BASE_URL = process.env.API_URL || "http://localhost:5026";
+    const API_BASE_URL = process.env.API_URL || "https://your-api-name-production.up.railway.app";
     
     let response: Response;
     try {
